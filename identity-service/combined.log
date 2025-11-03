@@ -4,3 +4,82 @@
 {"level":"info","message":"Identity service running on port 3001","service":"identity-service","timestamp":"2025-11-03T10:41:08.402Z"}
 {"level":"info","message":"Identity service running on port 3001","service":"identity-service","timestamp":"2025-11-03T10:41:33.439Z"}
 {"level":"info","message":"Connected to mongodb","service":"identity-service","timestamp":"2025-11-03T10:41:33.763Z"}
+{"level":"info","message":"Identity service running on port 3001","service":"identity-service","timestamp":"2025-11-03T12:53:47.585Z"}
+{"level":"info","message":"Connected to mongodb","service":"identity-service","timestamp":"2025-11-03T12:53:47.947Z"}
+{"0":"r","1":"e","2":"a","3":"s","4":"o","5":"n","6":":","level":"error","message":"Unhandled Rejection at","service":"identity-service","timestamp":"2025-11-03T12:53:58.180Z"}
+{"0":"r","1":"e","2":"a","3":"s","4":"o","5":"n","6":":","level":"error","message":"Unhandled Rejection at","service":"identity-service","timestamp":"2025-11-03T12:53:58.181Z"}
+{"level":"info","message":"Identity service running on port 3001","service":"identity-service","timestamp":"2025-11-03T12:55:51.642Z"}
+{"level":"info","message":"Connected to mongodb","service":"identity-service","timestamp":"2025-11-03T12:55:52.035Z"}
+{"level":"info","message":"Identity service running on port 3001","service":"identity-service","timestamp":"2025-11-03T13:01:08.262Z"}
+{"level":"info","message":"Connected to mongodb","service":"identity-service","timestamp":"2025-11-03T13:01:08.665Z"}
+{"level":"info","message":"Identity service running on port 3001","service":"identity-service","timestamp":"2025-11-03T13:05:09.298Z"}
+{"level":"info","message":"Connected to mongodb","service":"identity-service","timestamp":"2025-11-03T13:05:09.691Z"}
+{"level":"info","message":"Identity service running on port 3001","service":"identity-service","timestamp":"2025-11-03T13:12:26.071Z"}
+{"level":"info","message":"Connected to mongodb","service":"identity-service","timestamp":"2025-11-03T13:12:26.504Z"}
+{"level":"info","message":"Identity service running on port 3001","service":"identity-service","timestamp":"2025-11-03T13:13:29.159Z"}
+{"level":"info","message":"Connected to mongodb","service":"identity-service","timestamp":"2025-11-03T13:13:29.470Z"}
+{"level":"info","message":"Received POST request to /api/auth/register","service":"identity-service","timestamp":"2025-11-03T13:13:38.039Z"}
+{"level":"info","message":"Request body, [object Object]","service":"identity-service","timestamp":"2025-11-03T13:13:38.040Z"}
+{"level":"info","message":"Registration endpoint hit...","service":"identity-service","timestamp":"2025-11-03T13:13:38.044Z"}
+{"buffer":{"data":[105,8,170,130,147,155,177,8,254,165,148,69],"type":"Buffer"},"level":"warn","message":"User saved successfully","service":"identity-service","timestamp":"2025-11-03T13:13:38.182Z"}
+{"level":"info","message":"Received POST request to /api/auth/login","service":"identity-service","timestamp":"2025-11-03T13:14:07.693Z"}
+{"level":"info","message":"Request body, [object Object]","service":"identity-service","timestamp":"2025-11-03T13:14:07.695Z"}
+{"level":"info","message":"Login endpoint hit...","service":"identity-service","timestamp":"2025-11-03T13:14:07.703Z"}
+{"level":"info","message":"Identity service running on port 3001","service":"identity-service","timestamp":"2025-11-03T13:17:44.446Z"}
+{"level":"info","message":"Connected to mongodb","service":"identity-service","timestamp":"2025-11-03T13:17:47.519Z"}
+{"level":"info","message":"Received POST request to /api/auth/register","service":"identity-service","timestamp":"2025-11-03T13:18:12.940Z"}
+{"level":"info","message":"Request body, [object Object]","service":"identity-service","timestamp":"2025-11-03T13:18:12.941Z"}
+{"level":"info","message":"Registration endpoint hit...","service":"identity-service","timestamp":"2025-11-03T13:18:12.945Z"}
+{"buffer":{"data":[105,8,171,148,45,232,148,32,157,127,27,227],"type":"Buffer"},"level":"warn","message":"User saved successfully","service":"identity-service","timestamp":"2025-11-03T13:18:13.037Z"}
+{"level":"info","message":"Identity service running on port 3001","service":"identity-service","timestamp":"2025-11-03T13:26:35.171Z"}
+{"level":"info","message":"Connected to mongodb","service":"identity-service","timestamp":"2025-11-03T13:26:35.191Z"}
+{"level":"info","message":"Received GET request to /api/admin/users","service":"identity-service","timestamp":"2025-11-03T13:26:40.526Z"}
+{"level":"info","message":"Request body, [object Object]","service":"identity-service","timestamp":"2025-11-03T13:26:40.528Z"}
+{"level":"info","message":"Received GET request to /api/admin/users","service":"identity-service","timestamp":"2025-11-03T13:26:46.023Z"}
+{"level":"info","message":"Request body, [object Object]","service":"identity-service","timestamp":"2025-11-03T13:26:46.024Z"}
+{"level":"info","message":"Received POST request to /api/auth/register","service":"identity-service","timestamp":"2025-11-03T13:27:42.986Z"}
+{"level":"info","message":"Request body, [object Object]","service":"identity-service","timestamp":"2025-11-03T13:27:42.987Z"}
+{"level":"info","message":"Registration endpoint hit...","service":"identity-service","timestamp":"2025-11-03T13:27:42.991Z"}
+{"buffer":{"data":[105,8,173,207,159,216,255,11,220,47,193,81],"type":"Buffer"},"level":"warn","message":"User saved successfully","service":"identity-service","timestamp":"2025-11-03T13:27:43.101Z"}
+{"level":"info","message":"Received POST request to /api/auth/register","service":"identity-service","timestamp":"2025-11-03T13:39:31.424Z"}
+{"level":"info","message":"Request body, [object Object]","service":"identity-service","timestamp":"2025-11-03T13:39:31.426Z"}
+{"level":"info","message":"Registration endpoint hit...","service":"identity-service","timestamp":"2025-11-03T13:39:31.430Z"}
+{"buffer":{"data":[105,8,176,147,159,216,255,11,220,47,193,86],"type":"Buffer"},"level":"warn","message":"User saved successfully","service":"identity-service","timestamp":"2025-11-03T13:39:31.566Z"}
+{"level":"info","message":"Received POST request to /api/auth/login","service":"identity-service","timestamp":"2025-11-03T13:39:31.640Z"}
+{"level":"info","message":"Request body, [object Object]","service":"identity-service","timestamp":"2025-11-03T13:39:31.642Z"}
+{"level":"info","message":"Login endpoint hit...","service":"identity-service","timestamp":"2025-11-03T13:39:31.647Z"}
+{"level":"warn","message":"Invalid user","service":"identity-service","timestamp":"2025-11-03T13:39:31.650Z"}
+{"level":"info","message":"Received POST request to /api/auth/refresh-token","service":"identity-service","timestamp":"2025-11-03T13:39:31.685Z"}
+{"level":"info","message":"Request body, [object Object]","service":"identity-service","timestamp":"2025-11-03T13:39:31.685Z"}
+{"level":"info","message":"Refresh token endpoint hit...","service":"identity-service","timestamp":"2025-11-03T13:39:31.687Z"}
+{"level":"warn","message":"User not found","service":"identity-service","timestamp":"2025-11-03T13:39:31.695Z"}
+{"level":"info","message":"Received POST request to /api/auth/logout","service":"identity-service","timestamp":"2025-11-03T13:39:31.744Z"}
+{"level":"info","message":"Request body, [object Object]","service":"identity-service","timestamp":"2025-11-03T13:39:31.744Z"}
+{"level":"info","message":"Logout endpoint hit...","service":"identity-service","timestamp":"2025-11-03T13:39:31.749Z"}
+{"level":"warn","message":"Invalid refresh token provided","service":"identity-service","timestamp":"2025-11-03T13:39:31.758Z"}
+{"level":"info","message":"Received POST request to /api/auth/register","service":"identity-service","timestamp":"2025-11-03T13:39:31.937Z"}
+{"level":"info","message":"Request body, [object Object]","service":"identity-service","timestamp":"2025-11-03T13:39:31.938Z"}
+{"level":"info","message":"Registration endpoint hit...","service":"identity-service","timestamp":"2025-11-03T13:39:31.942Z"}
+{"buffer":{"data":[105,8,176,147,159,216,255,11,220,47,193,95],"type":"Buffer"},"level":"warn","message":"User saved successfully","service":"identity-service","timestamp":"2025-11-03T13:39:32.022Z"}
+{"level":"info","message":"Received POST request to /api/auth/login","service":"identity-service","timestamp":"2025-11-03T13:39:32.061Z"}
+{"level":"info","message":"Request body, [object Object]","service":"identity-service","timestamp":"2025-11-03T13:39:32.061Z"}
+{"level":"info","message":"Login endpoint hit...","service":"identity-service","timestamp":"2025-11-03T13:39:32.063Z"}
+{"level":"warn","message":"Invalid user","service":"identity-service","timestamp":"2025-11-03T13:39:32.066Z"}
+{"level":"info","message":"Received POST request to /api/auth/login","service":"identity-service","timestamp":"2025-11-03T13:39:32.111Z"}
+{"level":"info","message":"Request body, [object Object]","service":"identity-service","timestamp":"2025-11-03T13:39:32.111Z"}
+{"level":"info","message":"Login endpoint hit...","service":"identity-service","timestamp":"2025-11-03T13:39:32.113Z"}
+{"level":"info","message":"Received POST request to /api/auth/register","service":"identity-service","timestamp":"2025-11-03T13:40:17.404Z"}
+{"level":"info","message":"Request body, [object Object]","service":"identity-service","timestamp":"2025-11-03T13:40:17.405Z"}
+{"level":"info","message":"Registration endpoint hit...","service":"identity-service","timestamp":"2025-11-03T13:40:17.407Z"}
+{"buffer":{"data":[105,8,176,193,159,216,255,11,220,47,193,104],"type":"Buffer"},"level":"warn","message":"User saved successfully","service":"identity-service","timestamp":"2025-11-03T13:40:17.495Z"}
+{"level":"info","message":"Received POST request to /api/auth/login","service":"identity-service","timestamp":"2025-11-03T13:40:33.646Z"}
+{"level":"info","message":"Request body, [object Object]","service":"identity-service","timestamp":"2025-11-03T13:40:33.648Z"}
+{"level":"info","message":"Login endpoint hit...","service":"identity-service","timestamp":"2025-11-03T13:40:33.650Z"}
+{"level":"info","message":"Received POST request to /api/auth/refresh-token","service":"identity-service","timestamp":"2025-11-03T13:40:38.588Z"}
+{"level":"info","message":"Request body, [object Object]","service":"identity-service","timestamp":"2025-11-03T13:40:38.590Z"}
+{"level":"info","message":"Refresh token endpoint hit...","service":"identity-service","timestamp":"2025-11-03T13:40:38.593Z"}
+{"level":"warn","message":"User not found","service":"identity-service","timestamp":"2025-11-03T13:40:38.608Z"}
+{"level":"info","message":"Received POST request to /api/auth/logout","service":"identity-service","timestamp":"2025-11-03T13:40:42.183Z"}
+{"level":"info","message":"Request body, [object Object]","service":"identity-service","timestamp":"2025-11-03T13:40:42.185Z"}
+{"level":"info","message":"Logout endpoint hit...","service":"identity-service","timestamp":"2025-11-03T13:40:42.190Z"}
+{"level":"warn","message":"Invalid refresh token provided","service":"identity-service","timestamp":"2025-11-03T13:40:42.197Z"}

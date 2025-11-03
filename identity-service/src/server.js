@@ -77,6 +77,13 @@ app.use("/api/auth/register", sensitiveEndpointsLimiter);
 //Routes
 app.use("/api/auth", routes);
 
+// Admin routes (development only)
+if (process.env.NODE_ENV !== 'production') {
+  const adminRoutes = require('./routes/admin');
+  app.use("/api/admin", adminRoutes);
+  logger.info('Admin routes enabled (development mode)');
+}
+
 //error handler
 app.use(errorHandler);
 

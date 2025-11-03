@@ -1,0 +1,62 @@
+services:
+  # Redis Service
+  redis:
+    image: redis:7-alpine
+    container_name: social_media_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+
+  # Identity Service (using MongoDB Atlas)
+  identity-service:
+    build:
+      context: ./identity-service
+      dockerfile: Dockerfile
+    container_name: social_media_identity
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+      - PORT=3001
+      - MONGODB_URI=mongodb+srv://simon:saks1234@cluster0.sllko.mongodb.net/identity-service
+      - REDIS_URL=redis://redis:6379
+      - JWT_SECRET=your_jwt_secret_key_docker_env
+      - JWT_EXPIRES_IN=1d
+    depends_on:
+      - redis
+    restart: unless-stopped
+    volumes:
+      - ./identity-service:/usr/src/app
+      - /usr/src/app/node_modules
+
+  # API Gateway Service
+  api-gateway:
+    build:
+      context: ./api-gateway
+      dockerfile: Dockerfile
+    container_name: social_media_gateway
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - REDIS_URL=redis://redis:6379
+      - IDENTITY_SERVICE_URL=http://identity-service:3001
+      - JWT_SECRET=your_jwt_secret_key_docker_env
+    depends_on:
+      - redis
+      - identity-service
+    restart: unless-stopped
+    volumes:
+      - ./api-gateway:/usr/src/app
+      - /usr/src/app/node_modules
+
+volumes:
+  redis_data:
+
+networks:
+  default:
+    name: social_media_network
