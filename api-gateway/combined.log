@@ -95,3 +95,21 @@
 {"level":"info","message":"Received POST request to /v1/auth/logout","service":"api-gateway","timestamp":"2025-11-03T13:40:42.163Z"}
 {"level":"info","message":"Request body, [object Object]","service":"api-gateway","timestamp":"2025-11-03T13:40:42.167Z"}
 {"level":"info","message":"Response received from Identity service: 400","service":"api-gateway","timestamp":"2025-11-03T13:40:42.201Z"}
+{"level":"info","message":"API Gateway is running on port 3000","service":"api-gateway","timestamp":"2025-11-03T13:54:34.961Z"}
+{"level":"info","message":"Identity service is running on port http://identity-service:3001","service":"api-gateway","timestamp":"2025-11-03T13:54:34.962Z"}
+{"level":"info","message":"Redis Url redis://redis:6379","service":"api-gateway","timestamp":"2025-11-03T13:54:34.963Z"}
+{"level":"info","message":"Received GET request to /v1/posts/health","service":"api-gateway","timestamp":"2025-11-03T13:54:45.362Z"}
+{"level":"info","message":"Request body, [object Object]","service":"api-gateway","timestamp":"2025-11-03T13:54:45.363Z"}
+{"level":"info","message":"Response received from Post service: 404","service":"api-gateway","timestamp":"2025-11-03T13:54:45.387Z"}
+{"level":"info","message":"Received GET request to /v1/posts/health","service":"api-gateway","timestamp":"2025-11-03T13:55:42.568Z"}
+{"level":"info","message":"Request body, [object Object]","service":"api-gateway","timestamp":"2025-11-03T13:55:42.570Z"}
+{"level":"info","message":"Response received from Post service: 404","service":"api-gateway","timestamp":"2025-11-03T13:55:42.616Z"}
+{"level":"info","message":"Received GET request to /v1/posts/health","service":"api-gateway","timestamp":"2025-11-03T13:56:16.444Z"}
+{"level":"info","message":"Request body, [object Object]","service":"api-gateway","timestamp":"2025-11-03T13:56:16.446Z"}
+{"level":"info","message":"Response received from Post service: 404","service":"api-gateway","timestamp":"2025-11-03T13:56:16.487Z"}
+{"level":"info","message":"Received GET request to /v1/posts/health","service":"api-gateway","timestamp":"2025-11-03T13:56:55.549Z"}
+{"level":"info","message":"Request body, [object Object]","service":"api-gateway","timestamp":"2025-11-03T13:56:55.550Z"}
+{"level":"info","message":"Response received from Post service: 200","service":"api-gateway","timestamp":"2025-11-03T13:56:55.582Z"}
+{"level":"info","message":"Received GET request to /v1/posts","service":"api-gateway","timestamp":"2025-11-03T13:56:59.820Z"}
+{"level":"info","message":"Request body, [object Object]","service":"api-gateway","timestamp":"2025-11-03T13:56:59.822Z"}
+{"level":"info","message":"Response received from Post service: 200","service":"api-gateway","timestamp":"2025-11-03T13:56:59.834Z"}

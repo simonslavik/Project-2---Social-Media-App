@@ -83,3 +83,5 @@
 {"level":"info","message":"Request body, [object Object]","service":"identity-service","timestamp":"2025-11-03T13:40:42.185Z"}
 {"level":"info","message":"Logout endpoint hit...","service":"identity-service","timestamp":"2025-11-03T13:40:42.190Z"}
 {"level":"warn","message":"Invalid refresh token provided","service":"identity-service","timestamp":"2025-11-03T13:40:42.197Z"}
+{"level":"info","message":"Identity service running on port 3001","service":"identity-service","timestamp":"2025-11-03T13:54:34.949Z"}
+{"level":"info","message":"Connected to mongodb","service":"identity-service","timestamp":"2025-11-03T13:54:34.988Z"}

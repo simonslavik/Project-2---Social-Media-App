@@ -1,0 +1,22 @@
+{"level":"info","message":"Post Service is running on port 3002","service":"post-service","timestamp":"2025-11-03T13:54:34.531Z"}
+{"level":"info","message":"MongoDB URI: Connected","service":"post-service","timestamp":"2025-11-03T13:54:34.534Z"}
+{"level":"info","message":"Redis URL: Connected","service":"post-service","timestamp":"2025-11-03T13:54:34.535Z"}
+{"level":"warn","message":"Route not found: GET /api/posts/health","service":"post-service","timestamp":"2025-11-03T13:54:45.379Z"}
+{"level":"info","message":"Post Service is running on port 3002","service":"post-service","timestamp":"2025-11-03T13:55:35.133Z"}
+{"level":"info","message":"MongoDB URI: Connected","service":"post-service","timestamp":"2025-11-03T13:55:35.135Z"}
+{"level":"info","message":"Redis URL: Connected","service":"post-service","timestamp":"2025-11-03T13:55:35.135Z"}
+{"level":"warn","message":"Route not found: GET /api/posts/health","service":"post-service","timestamp":"2025-11-03T13:55:42.607Z"}
+{"level":"info","message":"Post Service is running on port 3002","service":"post-service","timestamp":"2025-11-03T13:56:11.766Z"}
+{"level":"info","message":"MongoDB URI: Connected","service":"post-service","timestamp":"2025-11-03T13:56:11.768Z"}
+{"level":"info","message":"Redis URL: Connected","service":"post-service","timestamp":"2025-11-03T13:56:11.768Z"}
+{"level":"info","message":"Received GET request to /api/posts/health","service":"post-service","timestamp":"2025-11-03T13:56:16.478Z"}
+{"level":"info","message":"Request path: /api/posts/health","service":"post-service","timestamp":"2025-11-03T13:56:16.478Z"}
+{"level":"warn","message":"Route not found: GET /api/posts/health","service":"post-service","timestamp":"2025-11-03T13:56:16.479Z"}
+{"level":"info","message":"Post Service is running on port 3002","service":"post-service","timestamp":"2025-11-03T13:56:50.003Z"}
+{"level":"info","message":"MongoDB URI: Connected","service":"post-service","timestamp":"2025-11-03T13:56:50.005Z"}
+{"level":"info","message":"Redis URL: Connected","service":"post-service","timestamp":"2025-11-03T13:56:50.006Z"}
+{"level":"info","message":"Received GET request to /api/posts/health","service":"post-service","timestamp":"2025-11-03T13:56:55.575Z"}
+{"level":"info","message":"Request path: /api/posts/health","service":"post-service","timestamp":"2025-11-03T13:56:55.576Z"}
+{"level":"info","message":"Received GET request to /api/posts","service":"post-service","timestamp":"2025-11-03T13:56:59.831Z"}
+{"level":"info","message":"Request path: /api/posts","service":"post-service","timestamp":"2025-11-03T13:56:59.831Z"}
+{"level":"info","message":"GET /api/posts endpoint hit","service":"post-service","timestamp":"2025-11-03T13:56:59.832Z"}

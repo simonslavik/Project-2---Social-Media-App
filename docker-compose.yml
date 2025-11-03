@@ -47,6 +47,31 @@ services:
       - ./identity-service:/usr/src/app
       - /usr/src/app/node_modules
 
+  # Post Service
+  post-service:
+    build:
+      context: ./post-service
+      dockerfile: Dockerfile
+    container_name: social_media_posts
+    ports:
+      - "3002:3002"
+    environment:
+      - NODE_ENV=production
+      - PORT=3002
+      - MONGODB_URI=mongodb://admin:password123@mongodb:27017/social_media?authSource=admin
+      - REDIS_URL=redis://redis:6379
+      - JWT_SECRET=your_jwt_secret_key_docker_env
+      - JWT_EXPIRES_IN=1d
+      - IDENTITY_SERVICE_URL=http://identity-service:3001
+    depends_on:
+      - redis
+      - mongodb
+      - identity-service
+    restart: unless-stopped
+    volumes:
+      - ./post-service:/usr/src/app
+      - /usr/src/app/node_modules
+
   # API Gateway Service
   api-gateway:
     build:
@@ -60,10 +85,12 @@ services:
       - PORT=3000
       - REDIS_URL=redis://redis:6379
       - IDENTITY_SERVICE_URL=http://identity-service:3001
+      - POST_SERVICE_URL=http://post-service:3002
       - JWT_SECRET=your_jwt_secret_key_docker_env
     depends_on:
       - redis
       - identity-service
+      - post-service
     restart: unless-stopped
     volumes:
       - ./api-gateway:/usr/src/app
