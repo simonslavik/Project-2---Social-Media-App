@@ -89,6 +89,31 @@ services:
       - ./post-service:/usr/src/app
       - /usr/src/app/node_modules
 
+  # Media Service
+  media-service:
+    build:
+      context: ./media-service
+      dockerfile: Dockerfile
+    container_name: social_media_media
+    ports:
+      - "3003:3003"
+    environment:
+      - NODE_ENV=${NODE_ENV}
+      - PORT=3003
+      - MONGODB_URI=mongodb://${MONGO_ROOT_USERNAME}:${MONGO_ROOT_PASSWORD}@mongodb:27017/${MONGO_DATABASE}?authSource=admin
+      - REDIS_URL=${REDIS_URL}
+      - RABBITMQ_URL=${RABBITMQ_URL}
+      - JWT_SECRET=${JWT_SECRET}
+      - JWT_EXPIRES_IN=${JWT_EXPIRES_IN}
+    depends_on:
+      - redis
+      - mongodb
+      - rabbitmq
+    restart: unless-stopped
+    volumes:
+      - ./media-service:/usr/src/app
+      - /usr/src/app/node_modules
+
   # API Gateway Service
   api-gateway:
     build:
@@ -103,11 +128,13 @@ services:
       - REDIS_URL=${REDIS_URL}
       - IDENTITY_SERVICE_URL=${IDENTITY_SERVICE_URL}
       - POST_SERVICE_URL=${POST_SERVICE_URL}
+      - MEDIA_SERVICE_URL=${MEDIA_SERVICE_URL}
       - JWT_SECRET=${JWT_SECRET}
     depends_on:
       - redis
       - identity-service
       - post-service
+      - media-service
     restart: unless-stopped
     volumes:
       - ./api-gateway:/usr/src/app

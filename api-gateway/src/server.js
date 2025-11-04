@@ -113,7 +113,9 @@ app.use(
     ...proxyOptions,
     proxyReqOptDecorator: (proxyReqOpts, srcReq) => {
       proxyReqOpts.headers["x-user-id"] = srcReq.user.userId;
-      if (!srcReq.headers["content-type"].startsWith("multipart/form-data")) {
+      // Only set Content-Type to JSON if it's not multipart/form-data
+      const contentType = srcReq.headers["content-type"] || "";
+      if (!contentType.startsWith("multipart/form-data")) {
         proxyReqOpts.headers["Content-Type"] = "application/json";
       }
 

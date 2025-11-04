@@ -36,16 +36,27 @@ app.use(errorHandler);
 
 async function startServer() {
   try {
-    await connectToRabbitMQ();
-
-    //consume all the events
-    await consumeEvent("post.deleted", handlePostDeleted);
-
+    // Start server first
     app.listen(PORT, () => {
       logger.info(`Media service running on port ${PORT}`);
     });
+    
+    // Connect to RabbitMQ in background (non-blocking)
+    setTimeout(async () => {
+      try {
+        await connectToRabbitMQ();
+        logger.info("RabbitMQ connection established");
+        
+        // Set up event consumers after connection is established
+        await consumeEvent("post.deleted", handlePostDeleted);
+        logger.info("Event consumers registered");
+      } catch (error) {
+        logger.error("RabbitMQ connection failed, but server will continue:", error.message);
+      }
+    }, 2000); // Wait 2 seconds for RabbitMQ to be ready
+    
   } catch (error) {
-    logger.error("Failed to connect to server", error);
+    logger.error("Failed to start server", error);
     process.exit(1);
   }
 }
