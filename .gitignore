@@ -1,8 +1,13 @@
-# Environment variables
+# Environment variables - NEVER COMMIT THESE!
 .env
+.env.*
+!.env.example
+!.env.template
 .env.local
 .env.development
 .env.production
+.env.staging
+.env.test
 
 # Dependencies
 node_modules/
