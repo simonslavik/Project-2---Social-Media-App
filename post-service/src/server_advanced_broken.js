@@ -70,7 +70,7 @@ const sensitiveEndpointsLimiter = rateLimit({
   }),
 });
 
-// Health endpoint (before rate limiting)
+// Health endpoint
 app.get("/api/posts/health", (req, res) => {
   res.json({
     status: "ok",
@@ -80,12 +80,52 @@ app.get("/api/posts/health", (req, res) => {
     environment: {
       mongodb: !!process.env.MONGODB_URI,
       redis: !!process.env.REDIS_URL,
-      rabbitmq: !!process.env.RABBITMQ_URL,
-    },
+      rabbitmq: !!process.env.RABBITMQ_URL
+    }
   });
 });
 
-// Routes with Redis client injection
+// Basic posts endpoints
+app.get("/api/posts", (req, res) => {
+  res.json({
+    message: "Post service is running",
+    posts: [],
+    service: "post-service"
+  });
+});
+
+app.post("/api/posts", (req, res) => {
+  res.json({
+    message: "Post creation endpoint - not fully implemented yet",
+    received: req.body,
+    service: "post-service"
+  });
+});
+
+// Catch-all route
+app.use("*", (req, res) => {
+  logger.warn(`Route not found: ${req.method} ${req.originalUrl}`);
+  res.status(404).json({
+    message: "Route not found",
+    service: "post-service",
+    path: req.originalUrl
+  });
+});
+
+// Start server
+app.listen(PORT, () => {
+  logger.info(`Post Service running on port ${PORT}`);
+  logger.info(`MongoDB: ${process.env.MONGODB_URI ? "configured" : "missing"}`);
+  logger.info(`Redis: ${process.env.REDIS_URL ? "configured" : "missing"}`);
+});
+
+app.use((req, res, next) => {
+  logger.info(`Received ${req.method} request to ${req.url}`);
+  logger.info(`Request body, ${req.body}`);
+  next();
+});
+
+//routes -> pass redisclient to routes
 app.use(
   "/api/posts",
   (req, res, next) => {
@@ -95,26 +135,21 @@ app.use(
   postRoutes
 );
 
-// Error handling middleware
+
 app.use(errorHandler);
+
 
 async function startServer() {
   try {
-    // Start server first
+    // Start server first, then try RabbitMQ connection (non-blocking)
     app.listen(PORT, () => {
       logger.info(`Post service running on port ${PORT}`);
     });
     
-    // Connect to RabbitMQ in background (non-blocking)
-    setTimeout(async () => {
-      try {
-        await connectToRabbitMQ();
-        logger.info("RabbitMQ connection established");
-      } catch (error) {
-        logger.error("RabbitMQ connection failed, but server will continue:", error.message);
-      }
-    }, 2000); // Wait 2 seconds after server starts
-    
+    // Connect to RabbitMQ in background
+    connectToRabbitMQ().catch((error) => {
+      logger.error("RabbitMQ connection failed, but server will continue:", error);
+    });
   } catch (error) {
     logger.error("Failed to start server", error);
     process.exit(1);
@@ -123,24 +158,9 @@ async function startServer() {
 
 startServer();
 
-// Unhandled promise rejection
+
+//unhandled promise rejection
+
 process.on("unhandledRejection", (reason, promise) => {
   logger.error("Unhandled Rejection at", promise, "reason:", reason);
-});
-
-// Graceful shutdown
-process.on("SIGINT", async () => {
-  logger.info("SIGINT received, shutting down gracefully");
-  if (redisClient) {
-    await redisClient.quit();
-  }
-  process.exit(0);
-});
-
-process.on("SIGTERM", async () => {
-  logger.info("SIGTERM received, shutting down gracefully");
-  if (redisClient) {
-    await redisClient.quit();
-  }
-  process.exit(0);
 });

@@ -1,0 +1,433 @@
+{
+  "info": {
+    "name": "Social Media App - Post Service",
+    "description": "Comprehensive API testing for the Post Service microservice with Redis caching, rate limiting, and RabbitMQ events",
+    "version": "1.0.0"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3002",
+      "type": "string"
+    },
+    {
+      "key": "gateway_url", 
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "user_id",
+      "value": "507f1f77bcf86cd799439011",
+      "type": "string",
+      "description": "Test user ID for authentication"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health & Status",
+      "item": [
+        {
+          "name": "Health Check - Direct",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/posts/health",
+              "host": ["{{base_url}}"],
+              "path": ["api", "posts", "health"]
+            },
+            "description": "Check if the post service is running and healthy"
+          },
+          "response": []
+        },
+        {
+          "name": "Health Check - via Gateway",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{gateway_url}}/api/posts/health",
+              "host": ["{{gateway_url}}"],
+              "path": ["api", "posts", "health"]
+            },
+            "description": "Check post service health through API Gateway"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Rate Limiting Tests",
+      "item": [
+        {
+          "name": "Rate Limit Test - Normal Request",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/posts/health",
+              "host": ["{{base_url}}"],
+              "path": ["api", "posts", "health"]
+            },
+            "description": "Single request to test normal operation"
+          },
+          "response": []
+        },
+        {
+          "name": "Rate Limit Test - Rapid Fire",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/posts/health",
+              "host": ["{{base_url}}"],
+              "path": ["api", "posts", "health"]
+            },
+            "description": "Run this multiple times quickly to trigger rate limiting (should get 429 after 10 requests)"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Post Management",
+      "item": [
+        {
+          "name": "Get All Posts (with Redis Cache)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-user-id",
+                "value": "{{user_id}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/posts/all-posts?page=1&limit=10",
+              "host": ["{{base_url}}"],
+              "path": ["api", "posts", "all-posts"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit", 
+                  "value": "10"
+                }
+              ]
+            },
+            "description": "Retrieve all posts with pagination (cached in Redis for 5 minutes)"
+          },
+          "response": []
+        },
+        {
+          "name": "Create New Post (with RabbitMQ Event)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "x-user-id",
+                "value": "{{user_id}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"content\": \"This is my awesome post content! 🚀\",\n  \"mediaIds\": []\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/posts/create-post",
+              "host": ["{{base_url}}"],
+              "path": ["api", "posts", "create-post"]
+            },
+            "description": "Create a new post (publishes 'post.created' event to RabbitMQ)"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Post by ID (with Redis Cache)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-user-id",
+                "value": "{{user_id}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/posts/{{post_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "posts", "{{post_id}}"]
+            },
+            "description": "Get a specific post by ID (cached in Redis for 1 hour)"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Post (with RabbitMQ Event)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "x-user-id",
+                "value": "{{user_id}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/posts/{{post_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "posts", "{{post_id}}"]
+            },
+            "description": "Delete a post (publishes 'post.deleted' event to RabbitMQ)"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Post Interactions",
+      "item": [
+        {
+          "name": "Like Post",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/posts/{{post_id}}/like",
+              "host": ["{{base_url}}"],
+              "path": ["api", "posts", "{{post_id}}", "like"]
+            },
+            "description": "Like a post"
+          },
+          "response": []
+        },
+        {
+          "name": "Unlike Post",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/posts/{{post_id}}/like",
+              "host": ["{{base_url}}"],
+              "path": ["api", "posts", "{{post_id}}", "like"]
+            },
+            "description": "Remove like from a post"
+          },
+          "response": []
+        },
+        {
+          "name": "Add Comment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"content\": \"This is a great post! Thanks for sharing.\",\n  \"parentCommentId\": null\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/posts/{{post_id}}/comments",
+              "host": ["{{base_url}}"],
+              "path": ["api", "posts", "{{post_id}}", "comments"]
+            },
+            "description": "Add a comment to a post"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Post Comments",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/posts/{{post_id}}/comments",
+              "host": ["{{base_url}}"],
+              "path": ["api", "posts", "{{post_id}}", "comments"]
+            },
+            "description": "Get all comments for a post"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Security & Error Testing",
+      "item": [
+        {
+          "name": "Unauthorized Request - No User ID",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"content\": \"This should fail without user ID header\",\n  \"mediaIds\": []\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/posts/create-post",
+              "host": ["{{base_url}}"],
+              "path": ["api", "posts", "create-post"]
+            },
+            "description": "Test creating post without x-user-id header (should return 401)"
+          },
+          "response": []
+        },
+        {
+          "name": "Invalid JSON Test",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Invalid Post\",\n  \"content\": \n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/posts",
+              "host": ["{{base_url}}"],
+              "path": ["api", "posts"]
+            },
+            "description": "Test with invalid JSON (should return validation error)"
+          },
+          "response": []
+        },
+        {
+          "name": "Non-existent Post",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/posts/507f1f77bcf86cd799439011",
+              "host": ["{{base_url}}"],
+              "path": ["api", "posts", "507f1f77bcf86cd799439011"]
+            },
+            "description": "Test getting a non-existent post (should return 404)"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Load Testing",
+      "item": [
+        {
+          "name": "Stress Test - Health Endpoint",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/posts/health",
+              "host": ["{{base_url}}"],
+              "path": ["api", "posts", "health"]
+            },
+            "description": "Use Postman Runner to hit this endpoint multiple times for load testing"
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{auth_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Set dynamic variables",
+          "pm.globals.set('timestamp', new Date().getTime());",
+          "",
+          "// Log request info",
+          "console.log('Request:', pm.request.method, pm.request.url);"
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Basic response validation",
+          "pm.test('Response time is acceptable', function () {",
+          "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+          "});",
+          "",
+          "pm.test('Response has valid status code', function () {",
+          "    pm.expect(pm.response.code).to.be.oneOf([200, 201, 204, 400, 401, 404, 429]);",
+          "});",
+          "",
+          "// Log response info",
+          "console.log('Response Status:', pm.response.status);",
+          "console.log('Response Time:', pm.response.responseTime + 'ms');"
+        ]
+      }
+    }
+  ]
+}
