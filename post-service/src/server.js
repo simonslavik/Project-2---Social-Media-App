@@ -1,89 +1,106 @@
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
-const helmet = require('helmet');
-const winston = require('winston');
+require("dotenv").config();
+const express = require("express");
+const mongoose = require("mongoose");
+const Redis = require("ioredis");
+const cors = require("cors");
+const helmet = require("helmet");
+const postRoutes = require("./routes/post-routes");
+const errorHandler = require("./middleware/errorHandler");
+const logger = require("./utils/logger");
+const { connectToRabbitMQ } = require("./utils/rabbitmq");
+const { RateLimiterRedis } = require("rate-limiter-flexible");
+const { rateLimit } = require("express-rate-limit");
+const { RedisStore } = require("rate-limit-redis");
 
 const app = express();
 const PORT = process.env.PORT || 3002;
 
-// Logger setup
-const logger = winston.createLogger({
-  level: 'info',
-  format: winston.format.combine(
-    winston.format.timestamp(),
-    winston.format.errors({ stack: true }),
-    winston.format.json()
-  ),
-  defaultMeta: { service: 'post-service' },
-  transports: [
-    new winston.transports.File({ filename: 'error.log', level: 'error' }),
-    new winston.transports.File({ filename: 'combined.log' }),
-    new winston.transports.Console({
-      format: winston.format.simple()
-    })
-  ]
-});
+//connect to mongodb
+mongoose
+  .connect(process.env.MONGODB_URI)
+  .then(() => logger.info("Connected to mongodb"))
+  .catch((e) => logger.error("Mongo connection error", e));
 
-// Middleware
+const redisClient = new Redis(process.env.REDIS_URL);
+
+
 app.use(helmet());
 app.use(cors());
 app.use(express.json());
 
-// Debug middleware - log all requests
 app.use((req, res, next) => {
   logger.info(`Received ${req.method} request to ${req.url}`);
-  logger.info(`Request path: ${req.path}`);
+  logger.info(`Request body, ${req.body}`);
   next();
 });
 
-// Health check endpoint (matches API Gateway routing)
-app.get('/api/posts/health', (req, res) => {
-  res.json({ 
-    status: 'ok', 
-    service: 'post-service',
-    timestamp: new Date().toISOString(),
-    port: PORT
-  });
+
+//DDos protection and rate limiting
+const rateLimiter = new RateLimiterRedis({
+  storeClient: redisClient,
+  keyPrefix: "middleware",
+  points: 10,
+  duration: 1,
 });
 
-// Basic API endpoints
-app.get('/api/posts', (req, res) => {
-  logger.info('GET /api/posts endpoint hit');
-  res.json({ 
-    message: 'Post service is running but not fully implemented yet',
-    posts: []
-  });
+app.use((req, res, next) => {
+  rateLimiter
+    .consume(req.ip)
+    .then(() => next())
+    .catch(() => {
+      logger.warn(`Rate limit exceeded for IP: ${req.ip}`);
+      res.status(429).json({ success: false, message: "Too many requests" });
+    });
 });
 
-app.post('/api/posts', (req, res) => {
-  logger.info('POST /api/posts endpoint hit');
-  res.json({ 
-    message: 'Post creation endpoint - not implemented yet',
-    received: req.body
-  });
+
+
+//Ip based rate limiting for sensitive endpoints
+const sensitiveEndpointsLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 50,
+  standardHeaders: true,
+  legacyHeaders: false,
+  handler: (req, res) => {
+    logger.warn(`Sensitive endpoint rate limit exceeded for IP: ${req.ip}`);
+    res.status(429).json({ success: false, message: "Too many requests" });
+  },
+  store: new RedisStore({
+    sendCommand: (...args) => redisClient.call(...args),
+  }),
 });
 
-// Catch-all route
-app.use('*', (req, res) => {
-  logger.warn(`Route not found: ${req.method} ${req.originalUrl}`);
-  res.status(404).json({ 
-    message: 'Route not found',
-    service: 'post-service'
-  });
-});
+//routes -> pass redisclient to routes
+app.use(
+  "/api/posts",
+  (req, res, next) => {
+    req.redisClient = redisClient;
+    next();
+  },
+  postRoutes
+);
 
-// Error handling middleware
-app.use((error, req, res, next) => {
-  logger.error('Unhandled error:', error);
-  res.status(500).json({ 
-    message: 'Internal server error',
-    service: 'post-service'
-  });
-});
 
-app.listen(PORT, () => {
-  logger.info(`Post Service is running on port ${PORT}`);
-  logger.info(`MongoDB URI: ${process.env.MONGODB_URI ? 'Connected' : 'Not configured'}`);
-  logger.info(`Redis URL: ${process.env.REDIS_URL ? 'Connected' : 'Not configured'}`);
+app.use(errorHandler);
+
+
+async function startServer() {
+  try {
+    await connectToRabbitMQ();
+    app.listen(PORT, () => {
+      logger.info(`Post service running on port ${PORT}`);
+    });
+  } catch (error) {
+    logger.error("Failed to connect to server", error);
+    process.exit(1);
+  }
+}
+
+startServer();
+
+
+//unhandled promise rejection
+
+process.on("unhandledRejection", (reason, promise) => {
+  logger.error("Unhandled Rejection at", promise, "reason:", reason);
 });

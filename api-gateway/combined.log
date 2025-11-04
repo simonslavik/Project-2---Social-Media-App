@@ -113,3 +113,6 @@
 {"level":"info","message":"Received GET request to /v1/posts","service":"api-gateway","timestamp":"2025-11-03T13:56:59.820Z"}
 {"level":"info","message":"Request body, [object Object]","service":"api-gateway","timestamp":"2025-11-03T13:56:59.822Z"}
 {"level":"info","message":"Response received from Post service: 200","service":"api-gateway","timestamp":"2025-11-03T13:56:59.834Z"}
+{"level":"info","message":"API Gateway is running on port 3000","service":"api-gateway","timestamp":"2025-11-04T08:54:41.965Z"}
+{"level":"info","message":"Identity service is running on port http://identity-service:3001","service":"api-gateway","timestamp":"2025-11-04T08:54:41.970Z"}
+{"level":"info","message":"Redis Url redis://redis:6379","service":"api-gateway","timestamp":"2025-11-04T08:54:41.971Z"}
