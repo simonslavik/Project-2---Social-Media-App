@@ -264,3 +264,9 @@
 {"level":"info","message":"Received POST request to /v1/media/upload","service":"api-gateway","timestamp":"2025-11-04T14:09:18.878Z"}
 {"level":"info","message":"Request body, [object Object]","service":"api-gateway","timestamp":"2025-11-04T14:09:18.878Z"}
 {"level":"info","message":"Response received from media service: 500","service":"api-gateway","timestamp":"2025-11-04T14:09:18.909Z"}
+{"level":"info","message":"API Gateway is running on port 3000","service":"api-gateway","timestamp":"2025-11-05T08:27:06.689Z"}
+{"level":"info","message":"Identity service is running on port http://identity-service:3001","service":"api-gateway","timestamp":"2025-11-05T08:27:06.691Z"}
+{"level":"info","message":"Post service is running on port http://post-service:3002","service":"api-gateway","timestamp":"2025-11-05T08:27:06.692Z"}
+{"level":"info","message":"Media service is running on port http://media-service:3003","service":"api-gateway","timestamp":"2025-11-05T08:27:06.692Z"}
+{"level":"info","message":"Search service is running on port http://search-service:3004","service":"api-gateway","timestamp":"2025-11-05T08:27:06.692Z"}
+{"level":"info","message":"Redis Url redis://redis:6379","service":"api-gateway","timestamp":"2025-11-05T08:27:06.692Z"}

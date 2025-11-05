@@ -24,7 +24,7 @@ services:
       - rabbitmq_data:/var/lib/rabbitmq
     restart: unless-stopped
 
-  # MongoDB Service (local database for development)
+  # MongoDB Service (production)
   mongodb:
     image: mongo:6
     container_name: social_media_mongodb
@@ -41,15 +41,12 @@ services:
 
   # Identity Service
   identity-service:
-    build:
-      context: ./identity-service
-      dockerfile: Dockerfile
     image: your-dockerhub-username/social-media-identity:latest
     container_name: social_media_identity
     ports:
       - "3001:3001"
     environment:
-      - NODE_ENV=${NODE_ENV}
+      - NODE_ENV=production
       - PORT=3001
       - MONGODB_URI=mongodb://${MONGO_ROOT_USERNAME}:${MONGO_ROOT_PASSWORD}@mongodb:27017/${MONGO_DATABASE}?authSource=admin
       - REDIS_URL=${REDIS_URL}
@@ -59,21 +56,15 @@ services:
       - redis
       - mongodb
     restart: unless-stopped
-    volumes:
-      - ./identity-service:/usr/src/app
-      - /usr/src/app/node_modules
 
   # Post Service
   post-service:
-    build:
-      context: ./post-service
-      dockerfile: Dockerfile
     image: your-dockerhub-username/social-media-posts:latest
     container_name: social_media_posts
     ports:
       - "3002:3002"
     environment:
-      - NODE_ENV=${NODE_ENV}
+      - NODE_ENV=production
       - PORT=3002
       - MONGODB_URI=mongodb://${MONGO_ROOT_USERNAME}:${MONGO_ROOT_PASSWORD}@mongodb:27017/${MONGO_DATABASE}?authSource=admin
       - REDIS_URL=${REDIS_URL}
@@ -87,21 +78,15 @@ services:
       - rabbitmq
       - identity-service
     restart: unless-stopped
-    volumes:
-      - ./post-service:/usr/src/app
-      - /usr/src/app/node_modules
 
   # Media Service
   media-service:
-    build:
-      context: ./media-service
-      dockerfile: Dockerfile
     image: your-dockerhub-username/social-media-media:latest
     container_name: social_media_media
     ports:
       - "3003:3003"
     environment:
-      - NODE_ENV=${NODE_ENV}
+      - NODE_ENV=production
       - PORT=3003
       - MONGODB_URI=mongodb://${MONGO_ROOT_USERNAME}:${MONGO_ROOT_PASSWORD}@mongodb:27017/${MONGO_DATABASE}?authSource=admin
       - REDIS_URL=${REDIS_URL}
@@ -113,21 +98,15 @@ services:
       - mongodb
       - rabbitmq
     restart: unless-stopped
-    volumes:
-      - ./media-service:/usr/src/app
-      - /usr/src/app/node_modules
 
   # Search Service
   search-service:
-    build:
-      context: ./search-service
-      dockerfile: Dockerfile
     image: your-dockerhub-username/social-media-search:latest
     container_name: social_media_search
     ports:
       - "3004:3004"
     environment:
-      - NODE_ENV=${NODE_ENV}
+      - NODE_ENV=production
       - PORT=3004
       - MONGODB_URI=mongodb://${MONGO_ROOT_USERNAME}:${MONGO_ROOT_PASSWORD}@mongodb:27017/${MONGO_DATABASE}?authSource=admin
       - REDIS_URL=${REDIS_URL}
@@ -139,21 +118,15 @@ services:
       - mongodb
       - rabbitmq
     restart: unless-stopped
-    volumes:
-      - ./search-service:/usr/src/app
-      - /usr/src/app/node_modules
 
   # API Gateway Service
   api-gateway:
-    build:
-      context: ./api-gateway
-      dockerfile: Dockerfile
     image: your-dockerhub-username/social-media-gateway:latest
     container_name: social_media_gateway
     ports:
-      - "3000:3000"
+      - "80:3000" # Map to port 80 for production
     environment:
-      - NODE_ENV=${NODE_ENV}
+      - NODE_ENV=production
       - PORT=3000
       - REDIS_URL=${REDIS_URL}
       - IDENTITY_SERVICE_URL=${IDENTITY_SERVICE_URL}
@@ -168,9 +141,6 @@ services:
       - media-service
       - search-service
     restart: unless-stopped
-    volumes:
-      - ./api-gateway:/usr/src/app
-      - /usr/src/app/node_modules
 
 volumes:
   redis_data:
